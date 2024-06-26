@@ -58,7 +58,7 @@ public class CustomerAssistanceService {
 		String mail = customerProfileRepository.findEmail(grievance.getCustomerCardAccount().getAccountNumber())
 				.getEmail();
 		sendEmail(mail, "Grievance Submitted Successfully",
-				"Hi, your grievance is Submitted with Id: " + grievance.getGrievanceId());
+				"Hi, your grievance is Submitted. Our Customer Support will try to resolve it as soon as possible");
 		return customerGrievanceRepository.save(grievance);
 	}
 
@@ -70,7 +70,7 @@ public class CustomerAssistanceService {
 		String mail = customerProfileRepository.findEmail(scheduleCall.getCustomerCardAccount().getAccountNumber())
 				.getEmail();
 		sendEmail(mail, "ScheduleCall Submitted Successfully",
-				"Hi, your ScheduleCall is Submitted with Id: " + scheduleCall.getScheduleCallId());
+				"Hi, your ScheduleCall is Submitted.  Our Customer Support will try to resolve it as soon as possible");
 		return customerScheduleCallRepository.save(scheduleCall);
 	}
 
