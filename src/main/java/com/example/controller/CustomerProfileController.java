@@ -60,7 +60,7 @@ public class CustomerProfileController {
 	}
 //--------------------------------------------------------------------------------------------------------------	
 
-	
+	//---------Fetch Customer Profile---------
 	
 	@GetMapping("/readone/{id}")
 	public ResponseEntity<CustomerProfile> getCustomerById(@PathVariable("id") Long id) throws ResourceNotFoundException {
@@ -69,6 +69,8 @@ public class CustomerProfileController {
 		return ResponseEntity.ok(customer);
 	}
 
+	
+	//------------
 	@PostMapping("/add")
 	public ResponseEntity<CustomerProfile> createCustomer(@RequestBody CustomerProfile customerProfile)
 			throws BadRequestException {
@@ -117,11 +119,11 @@ public class CustomerProfileController {
 
 	@PostMapping("/verify-password-reset-otp")
 	public boolean verifyOtp(@RequestBody Map<String, String> otpRequest) {
-		return customerAuthService.verifyOtp(otpRequest.get(EMAIL), otpRequest.get("otp"));
+		return customerAuthService.verifyPasswordResetOtp(otpRequest.get(EMAIL), otpRequest.get("otp"));
 	}
 
 	@PostMapping("/reset-password")
-	public void resetPassword(@RequestBody Map<String, String> resetPasswordRequest) throws ResourceNotFoundException {
+	public void resetPassword(@RequestBody Map<String, String> resetPasswordRequest) throws ResourceNotFoundException, BadRequestException {
 		customerAuthService.resetPassword(resetPasswordRequest.get(EMAIL), resetPasswordRequest.get("otp"),
 				resetPasswordRequest.get("password"));
 	}

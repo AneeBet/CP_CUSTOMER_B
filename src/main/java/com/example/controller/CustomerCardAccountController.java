@@ -30,14 +30,14 @@ public class CustomerCardAccountController {
 
 	private static final String ACCOUNT_NUMBER = "accountNumber";
 	private static final String PAYMENT_TYPE = "paymentType";
-	
 
 	private CustomerCardAccountService customerCardAccountService;
 
 	public CustomerCardAccountController(CustomerCardAccountService customerCardAccountService) {
 		this.customerCardAccountService = customerCardAccountService;
-	}
+	} 
 
+//-----------	
 	@GetMapping("/readall/{id}")
 	public List<CustomerCardAccount> getAllCustomerAccounts(@PathVariable("id") Long id)
 			throws ResourceNotFoundException {
@@ -57,17 +57,15 @@ public class CustomerCardAccountController {
 		return customerCardAccountService.getFilteredTransactions(queryRequest.getStartDate(),
 				queryRequest.getEndDate(), queryRequest.getTransactionType(), queryRequest.getAccountNumber());
 	}
-	
-	
-	//Dashboard Function
+
+	// Dashboard Function
 	@PostMapping("/dashboard")
 	public ResponseEntity<CustomerDashboardDTO> dashboard(@RequestBody Map<String, String> requestBody) {
 		Long accountNumber = Long.valueOf(requestBody.get(ACCOUNT_NUMBER).toString());
-		
+
 		CustomerDashboardDTO result = customerCardAccountService.dashboard(accountNumber);
 		return ResponseEntity.ok(result);
 	}
-	
 
 	// Mansi's functions
 
@@ -202,25 +200,23 @@ public class CustomerCardAccountController {
 		return ResponseEntity.ok(createdTransaction);
 	}
 
-	
-	//Get card-limit
+	// Get card-limit
 	// transaction limit
 	@PostMapping("/get-credit-limit")
 	public ResponseEntity<BigDecimal> getCreditLimit(@RequestBody Map<String, String> requestBody) {
 		Long accountNumber = Long.valueOf(requestBody.get(ACCOUNT_NUMBER).toString());
-		
-	    BigDecimal result = customerCardAccountService.getCreditLimit(accountNumber);
+
+		BigDecimal result = customerCardAccountService.getCreditLimit(accountNumber);
 		return ResponseEntity.ok(result);
 	}
-	
-	
+
 	// Due Amount Payment
 	@PutMapping("/pay-due")
 	public ResponseEntity<String> payDue(@RequestBody Map<String, String> requestBody) {
 		Long accountNumber = Long.valueOf(requestBody.get(ACCOUNT_NUMBER).toString());
-		
-	    customerCardAccountService.payDue(accountNumber);
+
+		customerCardAccountService.payDue(accountNumber);
 		return ResponseEntity.ok("Payment Successful");
 	}
-	
+
 }

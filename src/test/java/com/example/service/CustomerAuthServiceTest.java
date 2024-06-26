@@ -18,6 +18,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
+import com.example.exception.BadRequestException;
 import com.example.exception.ResourceNotFoundException;
 import com.example.model.CustomerProfile;
 import com.example.model.PasswordResetToken;
@@ -53,7 +54,7 @@ public class CustomerAuthServiceTest {
         when(passwordResetTokenRepository.findByEmailAndOtp("test@example.com", "123456"))
                 .thenReturn(Optional.of(token));
 
-        assertTrue(customerAuthService.verifyOtp("test@example.com", "123456"));
+        assertTrue(customerAuthService.verifyPasswordResetOtp("test@example.com", "123456"));
     }
 
     @Test
@@ -61,7 +62,7 @@ public class CustomerAuthServiceTest {
         when(passwordResetTokenRepository.findByEmailAndOtp(anyString(), anyString()))
                 .thenReturn(Optional.empty());
 
-        assertFalse(customerAuthService.verifyOtp("test@example.com", "123456"));
+        assertFalse(customerAuthService.verifyPasswordResetOtp("test@example.com", "123456"));
     }
 
     @Test
@@ -90,7 +91,7 @@ public class CustomerAuthServiceTest {
     }
 
     @Test
-    public void testResetPassword_Success() throws ResourceNotFoundException {
+    public void testResetPassword_Success() throws ResourceNotFoundException, BadRequestException {
         PasswordResetToken token = new PasswordResetToken();
         token.setEmail("test@example.com");
         token.setOtp("123456");
@@ -111,14 +112,5 @@ public class CustomerAuthServiceTest {
         verify(passwordResetTokenRepository).deleteByEmail("test@example.com");
     }
 
-//    @Test
-//    public void testResetPassword_Failure() {
-//        when(passwordResetTokenRepository.findByEmailAndOtp("test@example.com", "123456"))
-//                .thenReturn(Optional.empty());
-//
-//        customerAuthService.resetPassword("test@example.com", "123456", "newPassword");
-//
-//        verify(customerProfileRepository).findByEmail("test@example.com");
-//        verify(passwordResetTokenRepository).findByEmailAndOtp("test@example.com", "123456");
-//    }
+
 }

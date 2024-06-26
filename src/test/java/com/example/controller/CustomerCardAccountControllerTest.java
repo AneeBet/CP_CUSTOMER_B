@@ -40,7 +40,7 @@ public class CustomerCardAccountControllerTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        customerCardAccount = new CustomerCardAccount();
+        customerCardAccount = new CustomerCardAccount(); 
         customerCardAccount.setAccountNumber(1L);
 
         transaction = new Transaction();

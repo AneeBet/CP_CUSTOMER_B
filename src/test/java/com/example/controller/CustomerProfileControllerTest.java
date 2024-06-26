@@ -170,16 +170,16 @@ public class CustomerProfileControllerTest {
 
     @Test
     void testVerifyOtp() {
-        when(customerAuthService.verifyOtp("customer@example.com", "123456")).thenReturn(true);
+        when(customerAuthService.verifyPasswordResetOtp("customer@example.com", "123456")).thenReturn(true);
 
         boolean result = customerProfileController.verifyOtp(Map.of("email", "customer@example.com", "otp", "123456"));
 
         assertTrue(result);
-        verify(customerAuthService, times(1)).verifyOtp("customer@example.com", "123456");
+        verify(customerAuthService, times(1)).verifyPasswordResetOtp("customer@example.com", "123456");
     }
 
     @Test
-    void testResetPassword() throws ResourceNotFoundException {
+    void testResetPassword() throws ResourceNotFoundException, BadRequestException {
         doNothing().when(customerAuthService).resetPassword(anyString(), anyString(), anyString());
 
         customerProfileController.resetPassword(Map.of("email", "customer@example.com", "otp", "123456", "password", "newpassword"));
